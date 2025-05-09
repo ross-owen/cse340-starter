@@ -15,18 +15,15 @@
 
 body {
   font-family: "Montserrat", sans-serif;
+  font-size: .7em;
   color: var(--primary-color);
-  background-image: url("/images/site/checkerboard.jpg");
   background-size: 465px 450px;
 }
 
 #wrapper {
-  margin: 1rem auto;
   padding: 1rem;
   max-width: 900px;
   background-color: var(--subtle-color);
-  border: 5px solid var(--primary-color);
-  border-radius: 10px;
 }
 
 /* HEADER */
@@ -84,14 +81,20 @@ nav li {
   min-height: 200px;
   align-items: center;
 }
+
 .hero-content picture {
-  margin: 0 auto;
+  width: 100%;
+}
+.hero-content picture img {
+  width: 100%;
+  height: auto;
+  padding: 0 5rem;
 }
 
 .hero-card {
   padding: 0 0.5rem 0.5rem 0.5rem;
   position: absolute;
-  left: 2rem;
+  left: 0;
   bottom: 2rem;
   background-color: var(--backdrop-color);
   color: var(--accent1-color);
@@ -123,12 +126,14 @@ nav li {
 
 /* DETAILS */
 .details-container {
-  padding: 2rem 0 0 0;
   display: flex;
   flex-wrap: wrap;
+  grid-gap: 1rem;
+  justify-content: center;
 }
+
 .details-container section {
-  width: 380px;
+  width: 320px;
 }
 
 .details-upgrades-thumbs {
@@ -141,7 +146,7 @@ nav li {
   display: flex;
   flex-direction: column;
   text-align: center;
-  width: 180px;
+  width: 150px;
 }
 
 .details-upgrades-thumbs figure div {
@@ -162,5 +167,45 @@ nav li {
 
 .details-reviews li {
   padding: 0.5rem 0;
-  font-size: 1.25rem;
+}
+
+/* LARGER SCREENS */
+@media (min-width: 565px) {
+  body {
+    font-size: unset;
+    background-image: url("/images/site/checkerboard.jpg");
+  }
+
+  #wrapper {
+    margin: 1rem auto;
+    border: 5px solid var(--primary-color);
+    border-radius: 10px;
+  }
+
+  .hero-content picture img {
+    margin: 0 auto;
+    padding: 0 7rem;
+  }
+
+  .hero-card {
+    left: 2rem;
+    bottom: 3rem;
+  }
+
+  .details-reviews li {
+    font-size: 1.25rem;
+  }
+
+  .details-container {
+    padding: 2rem 0 0 0;
+    flex-direction: row-reverse;
+  }
+
+  .details-container section {
+    width: 400px;
+  }
+
+  .details-upgrades-thumbs figure {
+    width: 190px;
+  }
 }
