@@ -3,7 +3,7 @@ CREATE TYPE public.account_type AS ENUM
     ('Client', 'Employee', 'Admin');
 
 ALTER TYPE public.account_type
-    OWNER TO cse340_may;
+    OWNER TO cse340_may10;
 
 -- step 1: create classification
 CREATE TABLE public.classification
