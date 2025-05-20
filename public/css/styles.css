@@ -58,7 +58,6 @@ nav ul {
   margin: 0;
   padding: 10px;
   list-style-type: none;
-  color: var(--accent1-color);
   background-color: var(--primary-color);
   display: flex;
   justify-content: space-around;
@@ -66,6 +65,17 @@ nav ul {
 
 nav li {
   display: block;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--accent1-color);
+  background-color: var(--primary-color);
+}
+
+nav a:hover {
+  color: var(--primary-color);
+  background-color: var(--accent1-color);
 }
 
 /* HERO */
@@ -167,6 +177,36 @@ nav li {
 
 .details-reviews li {
   padding: 0.5rem 0;
+}
+
+#inv-display {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+#inv-display li {
+  margin: 10px;
+}
+
+#inv-display li a {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.namePrice a {
+  height: unset !important;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.namePrice a:hover {
+  background-color: var(--accent1-color);
+  text-decoration: none;
 }
 
 /* LARGER SCREENS */
