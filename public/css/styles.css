@@ -209,6 +209,16 @@ nav a:hover {
   text-decoration: none;
 }
 
+.vehicle label {
+  font-weight: bold;
+  padding-right: 0.5rem;
+}
+
+.vehicle img {
+  width: 100%;
+  height: auto;
+}
+
 /* LARGER SCREENS */
 @media (min-width: 565px) {
   body {
@@ -247,5 +257,15 @@ nav a:hover {
 
   .details-upgrades-thumbs figure {
     width: 190px;
+  }
+
+  .vehicle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .vehicle div {
+    padding: 0 0.5rem;
   }
 }
