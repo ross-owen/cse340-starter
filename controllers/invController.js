@@ -26,7 +26,9 @@ invCont.buildByInventoryId = async function (req, res, next) {
     const id = req.params.id
     const vehicle = await invModel.getInventoryById(id)
     if (!vehicle) {
-        return res.status(404).render("./inventory/not-found", {})
+        const error = new Error("I'm sorry! I could not find that vehicle. Are you trying to hack me? I will find you and your mother if you are.")
+        error.status = 404;
+        return next(error)
     }
     const detail = await utilities.buildByInventoryId(vehicle)
     let nav = await utilities.getNav()
@@ -35,6 +37,10 @@ invCont.buildByInventoryId = async function (req, res, next) {
         nav,
         detail: detail,
     })
+}
+
+invCont.buildServerError = function (req, res, next) {
+    throw new Error("I'm sorry Dave. I just can't let you do that.")
 }
 
 module.exports = invCont

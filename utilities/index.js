@@ -65,14 +65,14 @@ Util.buildByInventoryId = async function (vehicle) {
         return `
         <div class="vehicle">
           <div>
-            <img src="${vehicle.inv_image}" alt="${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}" width="500" height="330" />
+            <img src="${vehicle.inv_image}" alt="${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}" width="500" height="330" >
           </div>
           <div>
-            <h3>${vehicle.inv_make} ${vehicle.inv_model} Details</h3>
-            <p><label>Price:</label>$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</p>            
-            <p><label>Description:</label>${vehicle.inv_description}</p>
-            <p><label>Color:</label>${vehicle.inv_color}</p>
-            <p><label>Miles:</label>${new Intl.NumberFormat('en-US').format(vehicle.inv_miles)}</p>
+            <h2>${vehicle.inv_make} ${vehicle.inv_model} Details</h2>
+            <p><span>Price:</span>$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</p>            
+            <p><span>Description:</span>${vehicle.inv_description}</p>
+            <p><span>Color:</span>${vehicle.inv_color}</p>
+            <p><span>Miles:</span>${new Intl.NumberFormat('en-US').format(vehicle.inv_miles)}</p>
           </div>
         </div>
     `
@@ -85,7 +85,9 @@ Util.buildByInventoryId = async function (vehicle) {
  * Wrap other function in this for
  * General Error Handling
  **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+Util.handleErrors = fn => (req, res, next) => Promise
+    .resolve(fn(req, res, next))
+    .catch(next)
 
 
 module.exports = Util
