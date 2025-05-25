@@ -39,6 +39,15 @@ invCont.buildByInventoryId = async function (req, res, next) {
     })
 }
 
+invCont.buildManagement = async function (req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("./inventory/management", {
+        title: 'Inventory Management',
+        nav,
+        errors: null,
+    })
+}
+
 invCont.buildServerError = function (req, res, next) {
     throw new Error("I'm sorry Dave. I just can't let you do that.")
 }

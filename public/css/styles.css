@@ -293,6 +293,33 @@ nav a:hover {
   background-color: #dfd;
 }
 
+.inv-management {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: center;
+}
+
+.inv-management a {
+  padding: 0.5rem 1rem;
+  color: var(--accent1-color);
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  font-size: 0.8rem;
+  text-decoration: none;
+  text-align: center;
+  text-wrap: nowrap;
+  width: 70%;
+}
+
+.inv-management a:hover {
+  color: var(--primary-color);
+  background-color: var(--accent1-color);
+  border-color: var(--primary-color);
+}
+
 /* LARGER SCREENS */
 @media (min-width: 565px) {
   body {
@@ -350,5 +377,17 @@ nav a:hover {
   .register-form {
     margin: 0 auto;
     width: 60%;
+  }
+
+  .inv-management a {
+    padding: 0.5rem 1rem;
+    color: var(--accent1-color);
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    text-align: center;
+    width: 40%;
   }
 }
