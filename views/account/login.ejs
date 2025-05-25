@@ -1,0 +1,23 @@
+﻿<!--show the title if exists, otherwise redirect back to the homepage-->
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<div class="login-form">
+    <form>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required autofocus>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+        <button type="submit">Login</button>
+        <div class="login-no-content">No account? <a href="/account/signup">Sign-up</a></div>
+    </form>
+</div>

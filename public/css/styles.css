@@ -234,6 +234,41 @@ nav a:hover {
   border: 1px solid var(--primary-color);
 }
 
+.notice {
+  color: #f00;
+  font-style: italic;
+}
+
+.login-form {
+  border: 1px solid var(--primary-color);
+  background-color: var(--accent1-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.login-form label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.login-form input {
+  height: 1.75rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.login-form button {
+  margin: 0 auto;
+  display: block;
+  padding: 0.2rem 0.8rem;
+}
+
+.login-no-content {
+  text-align: center;
+  padding: 1rem 0 0.5rem;
+}
+
 /* LARGER SCREENS */
 @media (min-width: 565px) {
   body {
@@ -281,5 +316,10 @@ nav a:hover {
 
   .vehicle div {
     padding: 0 0.5rem;
+  }
+
+  .login-form {
+    margin: 0 auto;
+    width: 50%;
   }
 }
