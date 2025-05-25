@@ -285,6 +285,14 @@ nav a:hover {
   font-size: 0.8rem;
 }
 
+.register-form input:focus:invalid {
+  background-color: #fdd;
+}
+
+.register-form input:focus:required:valid {
+  background-color: #dfd;
+}
+
 /* LARGER SCREENS */
 @media (min-width: 565px) {
   body {
