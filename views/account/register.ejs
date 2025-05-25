@@ -1,0 +1,32 @@
+﻿<!--show the title if exists, otherwise redirect back to the homepage-->
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<div class="register-form login-form">
+    <div class="fields-are-required">All fields are required.</div>
+    <form id="registerForm" action="/account/register" method="post">
+        <div>
+            <label for="firstName">First Name:</label>
+            <input type="text" name="firstName" id="firstName" required autofocus>
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input type="text" name="lastName" id="lastName" required>
+        </div>
+        <div>
+            <label for="email">Email Address:</label>
+            <input type="email" name="email" id="email" required>
+        </div>
+        <div>
+            <label for="password">Password<sup>*</sup>:</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+        <p>* Passwords must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.</p>
+        <button type="submit">Register</button>
+    </form>
+</div>
