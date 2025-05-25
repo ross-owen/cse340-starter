@@ -9,8 +9,14 @@ router.get('/register', utilities.handleErrors(accountController.buildRegister))
 router.post(
     '/register',
     validator.registrationRules(),
-    validator.checkData,
+    validator.registrationDataCheck,
     utilities.handleErrors(accountController.register)
+)
+router.post(
+    '/login',
+    validator.loginRules(),
+    validator.loginDataCheck,
+    utilities.handleErrors(accountController.login)
 )
 
 module.exports = router

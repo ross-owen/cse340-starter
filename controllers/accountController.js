@@ -1,11 +1,13 @@
 ﻿const utilities = require('../utilities')
 const account = require('../models/account-model')
+const bcrypt = require('bcryptjs')
 
 async function buildLogin(req, res, next) {
     let nav = await utilities.getNav()
     res.render('account/login', {
         title: 'Login',
         nav,
+        errors: null,
     })
 }
 
@@ -27,11 +29,23 @@ async function register(req, res) {
         password
     } = req.body
 
+    let hashedPassword
+    try {
+        hashedPassword = await bcrypt.hash(password, 10)
+    } catch (error) {
+        req.flash('notice', 'Sorry, there was an error processing the registration')
+        res.status(500).render('account/register', {
+            title: 'Register',
+            nav,
+            errors: null,
+        })
+    }
+
     const result = await account.registerAccount(
         firstName,
         lastName,
         email,
-        password,
+        hashedPassword,
     )
 
     if (result) {
@@ -50,4 +64,41 @@ async function register(req, res) {
     }
 }
 
-module.exports = {buildLogin, buildRegister, register}
+async function login(req, res) {
+    let nav = await utilities.getNav()
+    const {
+        email,
+        password
+    } = req.body
+
+    let hashedPassword
+    try {
+        hashedPassword = await bcrypt.hash(password, 10)
+    } catch (error) {
+        req.flash('notice', 'Sorry, there was an error processing the login')
+        res.status(500).render('account/login', {
+            title: 'Login',
+            nav,
+            errors: null,
+        })
+    }
+    const result = await account.login(email, hashedPassword)
+
+    if (result) {
+        req.flash('notice', `Welcome back ${firstName}.`)
+        res.status(201).render('account/login', {
+            title: 'Login',
+            nav,
+            errors: null,
+        })
+    } else {
+        req.flash('notice', 'Invalid login.')
+        res.status(400).render('account/login', {
+            title: 'Login',
+            nav,
+            errors: null,
+        })
+    }
+}
+
+module.exports = {buildLogin, buildRegister, register, login}

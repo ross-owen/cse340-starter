@@ -239,26 +239,26 @@ nav a:hover {
   font-style: italic;
 }
 
-.login-form {
+.form-wrapper {
   border: 1px solid var(--primary-color);
   background-color: var(--accent1-color);
   border-radius: 0.5rem;
   padding: 1rem;
 }
 
-.login-form label {
+.form-wrapper label {
   display: block;
   font-size: 0.9rem;
   font-weight: bold;
 }
 
-.login-form input {
+.form-wrapper input {
   height: 1.75rem;
   margin-bottom: 1rem;
   width: 100%;
 }
 
-.login-form button {
+.form-wrapper button {
   margin: 0 auto;
   display: block;
   padding: 0.2rem 0.8rem;
@@ -342,7 +342,7 @@ nav a:hover {
     padding: 0 0.5rem;
   }
 
-  .login-form {
+  .form-wrapper {
     margin: 0 auto;
     width: 50%;
   }
