@@ -321,6 +321,10 @@ nav a:hover {
   border-color: var(--primary-color);
 }
 
+#addClassificationForm {
+  padding-top: 0.5rem;
+}
+
 /* LARGER SCREENS */
 @media (min-width: 565px) {
   body {
