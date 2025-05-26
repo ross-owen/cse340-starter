@@ -82,6 +82,68 @@ invCont.addClassification = async function (req, res) {
     }
 }
 
+invCont.addVehicle = async function (req, res) {
+    const {
+        year,
+        make,
+        model,
+        description,
+        image,
+        thumbnail,
+        price,
+        miles,
+        color,
+        classificationId,
+    } = req.body
+
+    const result = await invModel.addVehicle(
+        year,
+        make,
+        model,
+        description,
+        image,
+        thumbnail,
+        price,
+        miles,
+        color,
+        classificationId,
+    )
+
+    let nav = await utilities.getNav()
+    let classifications = await utilities.buildClassificationList()
+
+    console.log(`Ross was here: ${classifications}`)
+
+    if (result) {
+        req.flash('notice', `${year} ${make} ${model} has been added successfully`)
+        res.status(201).render('inventory/add-inventory', {
+            title: 'Add Vehicle',
+            nav,
+            classifications,
+            errors: null,
+        })
+    } else {
+        req.flash('notice', 'Failed to create the vehicle')
+        res.status(501).render('inventory/add-inventory', {
+            title: 'Add Vehicle',
+            nav,
+            classifications,
+            errors: null,
+        })
+    }
+}
+
+invCont.buildNewVehicle = async function (req, res, next) {
+    let nav = await utilities.getNav()
+    let classifications = await utilities.buildClassificationList()
+    res.render("./inventory/add-inventory", {
+        title: 'Add Vehicle',
+        nav,
+        classifications,
+        errors: null,
+    })
+}
+
 invCont.buildServerError = function (req, res, next) {
     throw new Error("I'm sorry Dave. I just can't let you do that.")
 }

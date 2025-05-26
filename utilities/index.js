@@ -89,5 +89,19 @@ Util.handleErrors = fn => (req, res, next) => Promise
     .resolve(fn(req, res, next))
     .catch(next)
 
+Util.buildClassificationList = async function (selectedId = null) {
+    let data = await invModel.getClassifications()
+    let html = '<select name="classificationId" id="classificationId" required>'
+    html += "<option value=''>Choose a Classification</option>"
+    data.rows.forEach((row) => {
+        html += '<option value="' + row.classification_id + '"'
+        if (selectedId != null && row.classification_id === parseInt(selectedId)) {
+            html += " selected "
+        }
+        html += ">" + row.classification_name + "</option>"
+    })
+    html += "</select>"
+    return html
+}
 
 module.exports = Util

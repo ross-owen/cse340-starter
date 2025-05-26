@@ -252,10 +252,11 @@ nav a:hover {
   font-weight: bold;
 }
 
-.form-wrapper input {
+.form-wrapper input, select {
   height: 1.75rem;
   margin-bottom: 1rem;
   width: 100%;
+  font-size: 0.9rem;
 }
 
 .form-wrapper button {
@@ -285,11 +286,11 @@ nav a:hover {
   font-size: 0.8rem;
 }
 
-.register-form input:focus:invalid {
+.validating-form input:focus:invalid {
   background-color: #fdd;
 }
 
-.register-form input:focus:required:valid {
+.validating-form input:focus:required:valid {
   background-color: #dfd;
 }
 

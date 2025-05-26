@@ -3,8 +3,22 @@
 /* ***************************
  *  Get all classification data
  * ************************** */
-async function getClassifications(){
+async function getClassifications() {
     return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+}
+
+async function getClassificationById(id) {
+    try {
+        const data = await pool.query(
+            `SELECT *
+             FROM public.classification
+             WHERE classification_id = $1`,
+            [id]
+        )
+        return data.rows[0]
+    } catch (error) {
+        console.error("getclassificationsbyid error", error)
+    }
 }
 
 /* ***************************
@@ -13,15 +27,16 @@ async function getClassifications(){
 async function getInventoryByClassificationId(classification_id) {
     try {
         const data = await pool.query(
-            `SELECT * FROM public.inventory AS i 
-                  JOIN public.classification AS c 
-                  ON i.classification_id = c.classification_id 
-                  WHERE i.classification_id = $1`,
+            `SELECT *
+             FROM public.inventory AS i
+                      JOIN public.classification AS c
+                           ON i.classification_id = c.classification_id
+             WHERE i.classification_id = $1`,
             [classification_id]
         )
         return data.rows
     } catch (error) {
-        console.error("getclassificationsbyid error " + error)
+        console.error("getinventorybyclassificationid error " + error)
     }
 }
 
@@ -31,8 +46,9 @@ async function getInventoryByClassificationId(classification_id) {
 async function getInventoryById(id) {
     try {
         const data = await pool.query(
-            `SELECT * FROM public.inventory AS i 
-                  WHERE i.inv_id = $1`,
+            `SELECT *
+             FROM public.inventory AS i
+             WHERE i.inv_id = $1`,
             [id]
         )
         return data.rows[0];
@@ -44,7 +60,9 @@ async function getInventoryById(id) {
 async function checkClassificationExists(name) {
     try {
         const sql = `
-        SELECT * FROM classification WHERE classification_name = $1`
+            SELECT *
+            FROM classification
+            WHERE classification_name = $1`
         const result = await pool.query(sql, [name])
         return result.rowCount
     } catch (error) {
@@ -55,13 +73,63 @@ async function checkClassificationExists(name) {
 async function addClassification(name) {
     try {
         const sql = `
-        INSERT INTO classification (classification_name)
-        VALUES ($1) 
-        RETURNING *`
+            INSERT INTO classification (classification_name)
+            VALUES ($1)
+            RETURNING *`
         return await pool.query(sql, [name])
     } catch (error) {
         return error.message
     }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById, checkClassificationExists, addClassification}
+async function addVehicle(year,
+                          make,
+                          model,
+                          description,
+                          image,
+                          thumbnail,
+                          price,
+                          miles,
+                          color,
+                          classificationId
+) {
+    try {
+        const sql = `
+            INSERT INTO inventory (inv_make,
+                                   inv_model,
+                                   inv_year,
+                                   inv_description,
+                                   inv_image,
+                                   inv_thumbnail,
+                                   inv_price,
+                                   inv_miles,
+                                   inv_color,
+                                   classification_id)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            RETURNING *`
+        return await pool.query(sql, [
+            make,
+            model,
+            year,
+            description,
+            image,
+            thumbnail,
+            price,
+            miles,
+            color,
+            parseInt(classificationId),
+        ])
+    } catch (error) {
+        return error.message
+    }
+}
+
+module.exports = {
+    getClassifications,
+    getInventoryByClassificationId,
+    getInventoryById,
+    checkClassificationExists,
+    addClassification,
+    getClassificationById,
+    addVehicle,
+}

@@ -16,6 +16,13 @@ router.post(
     validator.classificationDataCheck,
     utilities.handleErrors(invController.addClassification)
 )
+router.get("/vehicle", invController.buildNewVehicle);
+router.post(
+    '/vehicle',
+    validator.vehicleRules(),
+    validator.vehicleDataCheck,
+    utilities.handleErrors(invController.addVehicle)
+)
 
 router.get("/server-error", invController.buildServerError);
 
