@@ -15,32 +15,13 @@
 <% } %>
 
 <div class="form-wrapper">
-    <div class="fields-are-required">All fields are required.</div>
-    <form id="registerForm" action="/account/register" method="post">
+    <form id="addClassificationForm" action="/inv/classification" method="post">
         <div>
-            <label for="firstName">First Name:</label>
-            <input type="text" name="firstName" id="firstName"
-                   value="<%= locals.firstName %>"
+            <label for="classificationName">Classification Name:</label>
+            <input type="text" name="classificationName" id="classificationName"
+                   value="<%= locals.classificationName %>"
                    required autofocus>
         </div>
-        <div>
-            <label for="lastName">Last Name:</label>
-            <input type="text" name="lastName" id="lastName"
-                   value="<%= locals.lastName %>"
-                   required>
-        </div>
-        <div>
-            <label for="email">Email Address:</label>
-            <input type="email" name="email" id="email"
-                   value="<%= locals.email %>"
-                   required>
-        </div>
-        <div>
-            <label for="password">Password<sup>*</sup>:</label>
-            <input type="password" name="password" id="password" required
-            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
-        </div>
-        <p>* Passwords must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.</p>
-        <button type="submit">Register</button>
+        <button type="submit">Create</button>
     </form>
 </div>

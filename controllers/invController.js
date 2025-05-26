@@ -48,6 +48,40 @@ invCont.buildManagement = async function (req, res, next) {
     })
 }
 
+invCont.buildNewClassification = async function (req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("./inventory/add-classification", {
+        title: 'Add Classification',
+        nav,
+        errors: null,
+    })
+}
+
+invCont.addClassification = async function (req, res) {
+    const {
+        classificationName,
+    } = req.body
+
+    const result = await invModel.addClassification(classificationName)
+    let nav = await utilities.getNav()
+
+    if (result) {
+        req.flash('notice', `Classification ${classificationName} has been added successfully.`)
+        res.status(201).render('inventory/add-classification', {
+            title: 'Add Classification',
+            nav,
+            errors: null,
+        })
+    } else {
+        req.flash('notice', 'Failed to create the classification.')
+        res.status(501).render('inventory/add-classification', {
+            title: 'Add Classification',
+            nav,
+            errors: null,
+        })
+    }
+}
+
 invCont.buildServerError = function (req, res, next) {
     throw new Error("I'm sorry Dave. I just can't let you do that.")
 }
