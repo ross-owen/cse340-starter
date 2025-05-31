@@ -129,4 +129,47 @@ validator.vehicleDataCheck = async (req, res, next) => {
     next()
 }
 
+validator.updateVehicleDataCheck = async (req, res, next) => {
+    const {
+        id,
+        year,
+        make,
+        model,
+        description,
+        image,
+        thumbnail,
+        price,
+        miles,
+        color,
+        classificationId,
+    } = req.body
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        let classifications = await utilities.buildClassificationList(classificationId)
+
+        res.render('inventory/edit-vehicle', {
+            errors,
+            title: `Edit ${make} ${model}`,
+            nav,
+            classifications,
+            id,
+            year,
+            make,
+            model,
+            description,
+            image,
+            thumbnail,
+            price,
+            miles,
+            color,
+            classificationId,
+        })
+        return
+    }
+    next()
+}
+
 module.exports = validator

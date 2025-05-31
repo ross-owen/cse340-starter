@@ -1,0 +1,90 @@
+﻿<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+<ul class="notice">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <% }) %>
+</ul>
+<% } %>
+
+<div class="form-wrapper add-vehicle-form validating-form">
+    <form id="editVehicleForm" action="/inv/update" method="post">
+        <div>
+            <label for="year">Year:</label>
+            <input type="number" name="year" id="year" placeholder="2000" pattern="\d{4}"
+                   value="<%= locals.year %>"
+                   required autofocus>
+        </div>
+        <div>
+            <label for="make">Make:</label>
+            <input type="text" name="make" id="make"
+                   value="<%= locals.make %>"
+                   required>
+        </div>
+        <div>
+            <label for="model">Model:</label>
+            <input type="text" name="model" id="model"
+                   value="<%= locals.model %>"
+                   required>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description"
+                   value="<%= locals.description %>"
+                   required>
+        </div>
+        <div>
+            <label for="image">Image:</label>
+            <input type="text" name="image" id="image"
+                   pattern="^/images/vehicles/.+$"
+                   value="<%= locals.image %>"
+                   required>
+        </div>
+        <div>
+            <label for="thumbnail">Thumbnail:</label>
+            <input type="text" name="thumbnail" id="thumbnail"
+                   pattern="^/images/vehicles/.+$"
+                   value="<%= locals.thumbnail %>"
+                   required>
+        </div>
+        <div>
+            <label for="price">Price:</label>
+            <input type="number" name="price" id="price"
+                   value="<%= locals.price %>"
+                   required>
+        </div>
+        <div>
+            <label for="miles">Miles:</label>
+            <input type="text" name="miles" id="miles"
+                   value="<%= locals.miles %>"
+                   required>
+        </div>
+        <div>
+            <label for="color">Color:</label>
+            <input type="text" name="color" id="color"
+                   value="<%= locals.color %>"
+                   >
+        </div>
+        <div>
+            <label for="classificationId">Classification:</label>
+            <%- classifications %>
+        </div>
+        <button type="submit" disabled>Update Vehicle</button>
+        <input type="hidden" name="id" id="id"
+               <% if(locals.id) { %>
+               value="<%= locals.id %>"
+               <% } %>
+        />
+    </form>
+</div>
+
+<noscript>Javascript must be enabled to use this page.</noscript>
+
+<script src="../../js/inv-update.js"></script>

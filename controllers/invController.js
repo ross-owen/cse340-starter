@@ -1,12 +1,12 @@
 ﻿const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
 
-const invCont = {}
+const controller = {}
 
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
-invCont.buildByClassificationId = async function (req, res, next) {
+controller.buildByClassificationId = async function (req, res) {
     const classification_id = req.params.classificationId
     const classification = await invModel.getClassificationById(classification_id)
     const data = await invModel.getInventoryByClassificationId(classification_id)
@@ -23,7 +23,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 /* ***************************
  *  Build item by inventory id view
  * ************************** */
-invCont.buildByInventoryId = async function (req, res, next) {
+controller.buildByInventoryId = async function (req, res, next) {
     const id = req.params.id
     const vehicle = await invModel.getInventoryById(id)
     if (!vehicle) {
@@ -40,7 +40,7 @@ invCont.buildByInventoryId = async function (req, res, next) {
     })
 }
 
-invCont.buildManagement = async function (req, res, next) {
+controller.buildManagement = async function (req, res) {
     let nav = await utilities.getNav()
     const classificationSelect = await utilities.buildClassificationList()
     res.render("./inventory/management", {
@@ -51,7 +51,7 @@ invCont.buildManagement = async function (req, res, next) {
     })
 }
 
-invCont.buildNewClassification = async function (req, res, next) {
+controller.buildNewClassification = async function (req, res) {
     let nav = await utilities.getNav()
     res.render("./inventory/add-classification", {
         title: 'Add Classification',
@@ -60,7 +60,7 @@ invCont.buildNewClassification = async function (req, res, next) {
     })
 }
 
-invCont.addClassification = async function (req, res) {
+controller.addClassification = async function (req, res) {
     const {
         classificationName,
     } = req.body
@@ -85,7 +85,7 @@ invCont.addClassification = async function (req, res) {
     }
 }
 
-invCont.addVehicle = async function (req, res) {
+controller.addVehicle = async function (req, res) {
     const {
         year,
         make,
@@ -115,8 +115,6 @@ invCont.addVehicle = async function (req, res) {
     let nav = await utilities.getNav()
     let classifications = await utilities.buildClassificationList()
 
-    console.log(`Ross was here: ${classifications}`)
-
     if (result) {
         req.flash('notice', `${year} ${make} ${model} has been added successfully`)
         res.status(201).render('inventory/management', {
@@ -135,7 +133,7 @@ invCont.addVehicle = async function (req, res) {
     }
 }
 
-invCont.buildNewVehicle = async function (req, res, next) {
+controller.buildNewVehicle = async function (req, res) {
     let nav = await utilities.getNav()
     let classifications = await utilities.buildClassificationList()
     res.render("./inventory/add-inventory", {
@@ -146,20 +144,101 @@ invCont.buildNewVehicle = async function (req, res, next) {
     })
 }
 
-invCont.getInventoryJson = async (req, res, next) => {
+controller.getInventoryJson = async (req, res, next) => {
     const classificationId = parseInt(req.params.classificationId)
-    console.log(`getInventoryJson: ${classificationId}`)
     const invData = await invModel.getInventoryByClassificationId(classificationId)
-    console.log(`invData: ${JSON.stringify(invData)}`)
-    if (invData[0].inv_id) {
+    if (invData.length === 0 || invData[0].inv_id) {
         return res.json(invData)
     } else {
         next(newError('No data returned'))
     }
 }
 
-invCont.buildServerError = function (req, res, next) {
+controller.buildEditVehicle = async (req, res) => {
+    let nav = await utilities.getNav()
+
+    const vehicleId = parseInt(req.params.vehicleId)
+    const vehicle = await invModel.getInventoryById(vehicleId)
+    let classifications = await utilities.buildClassificationList(vehicle.classification_id)
+
+    res.render('./inventory/edit-vehicle', {
+        title: `Edit ${vehicle.inv_make} ${vehicle.inv_model}`,
+        nav,
+        classifications,
+        errors: null,
+        id: vehicle.inv_id,
+        make: vehicle.inv_make,
+        model: vehicle.inv_model,
+        year: vehicle.inv_year,
+        description: vehicle.inv_description,
+        image: vehicle.inv_image,
+        thumbnail: vehicle.inv_thumbnail,
+        price: vehicle.inv_price,
+        miles: vehicle.inv_miles,
+        color: vehicle.inv_color,
+        classificationId: vehicle.classification_id
+    })
+}
+
+controller.updateVehicle = async (req, res) => {
+    const {
+        id,
+        year,
+        make,
+        model,
+        description,
+        image,
+        thumbnail,
+        price,
+        miles,
+        color,
+        classificationId,
+    } = req.body
+
+    const result = await invModel.updateVehicle(
+        id,
+        year,
+        make,
+        model,
+        description,
+        image,
+        thumbnail,
+        price,
+        miles,
+        color,
+        classificationId,
+    )
+
+    if (result) {
+        req.flash('notice', `${year} ${make} ${model} has been updated`)
+        res.redirect('/inv/')
+    } else {
+        let nav = await utilities.getNav()
+        let classifications = await utilities.buildClassificationList(classificationId)
+
+        req.flash('notice', 'Failed to update the vehicle')
+        res.status(501).render('inventory/edit-vehicle', {
+            title: `Update ${make} ${model}`,
+            nav,
+            classifications,
+            errors: null,
+            id,
+            year,
+            make,
+            model,
+            description,
+            image,
+            thumbnail,
+            price,
+            miles,
+            color,
+            classificationId,
+        })
+    }
+}
+
+controller.buildServerError = () => {
     throw new Error("I'm sorry Dave. I just can't let you do that.")
 }
 
-module.exports = invCont
+module.exports = controller

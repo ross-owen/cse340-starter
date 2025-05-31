@@ -124,6 +124,54 @@ async function addVehicle(year,
     }
 }
 
+async function updateVehicle(id,
+                             year,
+                             make,
+                             model,
+                             description,
+                             image,
+                             thumbnail,
+                             price,
+                             miles,
+                             color,
+                             classificationId
+) {
+    try {
+        const sql = `
+            UPDATE inventory
+            SET inv_make          = $1,
+                inv_model         = $2,
+                inv_year          = $3,
+                inv_description   = $4,
+                inv_image         = $5,
+                inv_thumbnail     = $6,
+                inv_price         = $7,
+                inv_miles         = $8,
+                inv_color         = $9,
+                classification_id = $10
+            WHERE inv_id = $11
+            RETURNING *`
+        const data = await pool.query(sql, [
+            make,
+            model,
+            year,
+            description,
+            image,
+            thumbnail,
+            price,
+            miles,
+            color,
+            parseInt(classificationId),
+            parseInt(id)
+        ])
+        return data.rows[0]
+    } catch (error) {
+        console.error("update vehicle model error: " + error)
+    }
+
+}
+
+
 module.exports = {
     getClassifications,
     getInventoryByClassificationId,
@@ -132,4 +180,5 @@ module.exports = {
     addClassification,
     getClassificationById,
     addVehicle,
+    updateVehicle,
 }
