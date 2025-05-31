@@ -237,6 +237,59 @@ controller.updateVehicle = async (req, res) => {
     }
 }
 
+controller.buildDeleteVehicle = async (req, res) => {
+    let nav = await utilities.getNav()
+
+    const vehicleId = parseInt(req.params.vehicleId)
+    const vehicle = await invModel.getInventoryById(vehicleId)
+    let classifications = await utilities.buildClassificationList(vehicle.classification_id)
+
+    res.render('./inventory/delete-vehicle', {
+        title: `Delete ${vehicle.inv_make} ${vehicle.inv_model}`,
+        nav,
+        classifications,
+        errors: null,
+        id: vehicle.inv_id,
+        make: vehicle.inv_make,
+        model: vehicle.inv_model,
+        year: vehicle.inv_year,
+        price: vehicle.inv_price,
+    })
+}
+
+controller.deleteVehicle = async (req, res) => {
+    const {
+        id,
+        year,
+        make,
+        model,
+        price,
+    } = req.body
+
+    const result = await invModel.deleteVehicle(id)
+
+    if (result) {
+        req.flash('notice', `${year} ${make} ${model} has been deleted`)
+        res.redirect('/inv/')
+    } else {
+        let nav = await utilities.getNav()
+        let classifications = await utilities.buildClassificationList(classificationId)
+
+        req.flash('notice', 'Failed to delete the vehicle')
+        res.status(501).render('inventory/delete-vehicle', {
+            title: `Delete ${make} ${model}`,
+            nav,
+            classifications,
+            errors: null,
+            id,
+            year,
+            make,
+            model,
+            price,
+        })
+    }
+}
+
 controller.buildServerError = () => {
     throw new Error("I'm sorry Dave. I just can't let you do that.")
 }

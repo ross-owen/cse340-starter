@@ -1,37 +1,40 @@
 ﻿// Needed Resources
 const express = require("express")
 const router = new express.Router()
-const invController = require("../controllers/invController")
+const controller = require("../controllers/invController")
 const validator = require("../utilities/inventory-validation");
 const utilities = require("../utilities");
 
 
-router.get("/", invController.buildManagement);
-router.get("/type/:classificationId", invController.buildByClassificationId);
-router.get("/detail/:id", invController.buildByInventoryId);
+router.get("/", controller.buildManagement);
+router.get("/type/:classificationId", controller.buildByClassificationId);
+router.get("/detail/:id", controller.buildByInventoryId);
 
-router.get("/classification", invController.buildNewClassification);
+router.get("/classification", controller.buildNewClassification);
 router.post('/classification',
     validator.classificationRules(),
     validator.classificationDataCheck,
-    utilities.handleErrors(invController.addClassification)
+    utilities.handleErrors(controller.addClassification)
 )
 
-router.get("/vehicle", invController.buildNewVehicle);
+router.get("/vehicle", controller.buildNewVehicle);
 router.post('/vehicle',
     validator.vehicleRules(),
     validator.vehicleDataCheck,
-    utilities.handleErrors(invController.addVehicle)
+    utilities.handleErrors(controller.addVehicle)
 )
 
-router.get("/getInventory/:classificationId", utilities.handleErrors(invController.getInventoryJson))
-router.get("/edit/:vehicleId", utilities.handleErrors(invController.buildEditVehicle))
+router.get("/getInventory/:classificationId", utilities.handleErrors(controller.getInventoryJson))
+router.get("/edit/:vehicleId", utilities.handleErrors(controller.buildEditVehicle))
 router.post("/update",
     validator.vehicleRules(),
     validator.updateVehicleDataCheck,
-    utilities.handleErrors(invController.updateVehicle)
+    utilities.handleErrors(controller.updateVehicle)
 )
 
-router.get("/server-error", invController.buildServerError);
+router.get('/delete/:vehicleId', utilities.handleErrors(controller.buildDeleteVehicle))
+router.post("/delete", utilities.handleErrors(controller.deleteVehicle))
+
+router.get("/server-error", controller.buildServerError);
 
 module.exports = router;
