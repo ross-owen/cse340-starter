@@ -137,4 +137,19 @@ Util.checkLogin = (req, res, next) => {
     }
 }
 
+Util.canAdminister = (req, res, next) => {
+    if (res.locals.accountData &&
+        (res.locals.accountData.account_type === 'Admin'
+            || res.locals.accountData.account_type === 'Employee')) {
+        next();
+    } else {
+        console.warn('Forbidden. User is not allowed to make modifications.');
+
+        const error = new Error('Forbidden')
+        error.status = 403;
+
+        next(error)
+    }
+};
+
 module.exports = Util

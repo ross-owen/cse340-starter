@@ -72,9 +72,11 @@ app.use(async (req, res, next) => {
 *************************/
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  console.error(`Error at: "${req.originalUrl}": ${err.status}: ${err.message}`)
   if (err.status === 404) {
     message = err.message
+  } else if (err.status === 403) {
+    message = 'Access denied'
   } else {
     message = 'Something went wrong! Please try again. If the problem persists, contact me on the corner, near the flagpole, for your beating.'
   }
