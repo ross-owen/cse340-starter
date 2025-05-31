@@ -23,6 +23,7 @@ router.post(
     validator.vehicleDataCheck,
     utilities.handleErrors(invController.addVehicle)
 )
+router.get("/getInventory/:classificationId", utilities.handleErrors(invController.getInventoryJson))
 
 router.get("/server-error", invController.buildServerError);
 
