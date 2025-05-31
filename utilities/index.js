@@ -118,17 +118,18 @@ Util.checkJwtToken = (req, res, next) => {
                     return res.redirect('/account/login')
                 }
                 res.locals.accountData = accountData
-                res.locals.loggedin = 1
+                res.locals.loggedIn = 1
                 next()
             }
         )
     } else {
+        res.locals.loggedIn = 0
         next()
     }
 }
 
 Util.checkLogin = (req, res, next) => {
-    if (res.locals.loggedin) {
+    if (res.locals.loggedIn) {
         next()
     } else {
         req.flash('notice', 'Please log in')

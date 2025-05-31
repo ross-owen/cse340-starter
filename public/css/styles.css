@@ -45,9 +45,16 @@ header {
   justify-self: right;
 }
 #tools a {
+  padding: 0.3rem 0.8rem;
   color: var(--primary-color);
+  background-color: var(--accent1-color);
   text-decoration: none;
-  text-transform: uppercase;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+}
+#tools a:hover {
+  color: var(--accent1-color);
+  background-color: var(--primary-color);
 }
 
 /* NAVIGATION */

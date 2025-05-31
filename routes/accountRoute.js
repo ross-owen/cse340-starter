@@ -6,6 +6,7 @@ const validator = require('../utilities/account-validation')
 
 router.get('/', utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
 router.get('/login', utilities.handleErrors(accountController.buildLogin))
+router.get('/logout', utilities.handleErrors(accountController.accountLogout))
 router.get('/register', utilities.handleErrors(accountController.buildRegister))
 router.post(
     '/register',

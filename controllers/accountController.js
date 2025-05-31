@@ -22,6 +22,16 @@ async function buildLogin(req, res, next) {
     })
 }
 
+async function accountLogout(req, res) {
+    res.clearCookie('jwt', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+    })
+
+    res.redirect('/account/login')
+}
+
 async function buildRegister(req, res, next) {
     let nav = await utilities.getNav()
     res.render('account/register', {
@@ -76,43 +86,6 @@ async function register(req, res) {
     }
 }
 
-async function login(req, res) {
-    let nav = await utilities.getNav()
-    const {
-        email,
-        password
-    } = req.body
-
-    let hashedPassword
-    try {
-        hashedPassword = await bcrypt.hash(password, 10)
-    } catch (error) {
-        req.flash('notice', 'Sorry, there was an error processing the login')
-        res.status(500).render('account/login', {
-            title: 'Login',
-            nav,
-            errors: null,
-        })
-    }
-    const result = await account.login(email, hashedPassword)
-
-    if (result) {
-        req.flash('notice', `Welcome back ${firstName}.`)
-        res.status(201).render('account/login', {
-            title: 'Login',
-            nav,
-            errors: null,
-        })
-    } else {
-        req.flash('notice', 'Invalid login.')
-        res.status(400).render('account/login', {
-            title: 'Login',
-            nav,
-            errors: null,
-        })
-    }
-}
-
 function checkYourCredentials(req, res) {
     req.flash('notice', 'Please check your credentials and try again.')
     res.status(400).render('account/login', {
@@ -149,4 +122,4 @@ async function accountLogin(req, res) {
     }
 }
 
-module.exports = {buildLogin, buildRegister, register, login, accountLogin, buildAccountManagement}
+module.exports = {buildLogin, buildRegister, register, accountLogin, accountLogout, buildAccountManagement}
