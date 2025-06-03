@@ -122,4 +122,19 @@ async function accountLogin(req, res) {
     }
 }
 
-module.exports = {buildLogin, buildRegister, register, accountLogin, accountLogout, buildAccountManagement}
+async function buildUpdateAccount(req, res) {
+    let nav = await utilities.getNav()
+    const accountId = parseInt(req.params.accountId)
+    const found = await account.getAccountById(accountId)
+    res.render('account/update', {
+        title: `Edit ${found.account_firstname} ${found.account_lastname}`,
+        nav,
+        errors: null,
+        id: found.account_id,
+        firstName: found.account_firstname,
+        lastName: found.account_lastname,
+        email: found.account_email,
+    })
+}
+
+module.exports = {buildLogin, buildRegister, register, accountLogin, accountLogout, buildAccountManagement, buildUpdateAccount}

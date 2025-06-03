@@ -18,7 +18,7 @@
     <form id="deleteVehicleForm" action="/inv/delete" method="post">
         <div>
             <label for="year">Year:</label>
-            <input type="number" name="year" id="year" placeholder="2000" pattern="\d{4}"
+            <input type="number" name="year" id="year" placeholder="2000"
                    value="<%= locals.year %>"
                    readonly>
         </div>
@@ -45,7 +45,7 @@
                <% if(locals.id) { %>
                value="<%= locals.id %>"
                <% } %>
-        />
+        >
         <p class="notice">Confirm Delete - The delete is permanent.</p>
     </form>
 </div>

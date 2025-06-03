@@ -1,0 +1,61 @@
+﻿<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<div class="form-wrapper validating-form">
+    <form id="updateAccountForm" action="/account/update" method="post">
+        <div>
+            <label for="firstName">First Name:</label>
+            <input type="text" name="firstName" id="firstName"
+                   value="<%= locals.firstName %>"
+                   required autofocus>
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input type="text" name="lastName" id="lastName"
+                   value="<%= locals.lastName %>"
+                   required>
+        </div>
+        <div>
+            <label for="email">Email Address:</label>
+            <input type="email" name="email" id="email"
+                   value="<%= locals.email %>"
+                   required>
+        </div>
+        <button type="submit">Update Account</button>
+        <input type="hidden" name="id" id="id"
+        <% if (locals.id) { %>
+           value="<%= locals.id %>"
+        <% } %>
+        >
+    </form>
+</div>
+<hr>
+<div class="form-wrapper validating-form">
+    <form id="change-password-form" method="post" action="/account/change-password">
+        <div>
+            <label for="password">Password<sup>*</sup>:</label>
+            <input type="password" name="password" id="password" required
+                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+        </div>
+        <p>* Passwords must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.</p>
+        <button type="submit">Change Password</button>
+        <input type="hidden" name="passwordId" id="passwordId"
+        <% if (locals.id) { %>
+           value="<%= locals.id %>"
+        <% } %>
+        >
+    </form>
+</div>
