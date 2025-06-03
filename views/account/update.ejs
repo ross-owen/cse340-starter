@@ -35,7 +35,7 @@
                    required>
         </div>
         <button type="submit">Update Account</button>
-        <input type="hidden" name="id" id="id"
+        <input type="hidden" name="updateId" id="updateId"
         <% if (locals.id) { %>
            value="<%= locals.id %>"
         <% } %>
@@ -44,7 +44,7 @@
 </div>
 <hr>
 <div class="form-wrapper validating-form">
-    <form id="change-password-form" method="post" action="/account/change-password">
+    <form id="change-password-form" method="post" action="/account/update/password">
         <div>
             <label for="password">Password<sup>*</sup>:</label>
             <input type="password" name="password" id="password" required
