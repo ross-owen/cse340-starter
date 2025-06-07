@@ -248,3 +248,6 @@ where inv_make = 'GM' and inv_model = 'Hummer';
 update inventory
 set inv_image = replace(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = replace(inv_thumbnail, '/images/', '/images/vehicles/');
+
+ALTER TABLE inventory
+    ADD COLUMN is_featured BOOLEAN NOT NULL DEFAULT FALSE;

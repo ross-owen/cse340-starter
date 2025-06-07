@@ -73,6 +73,14 @@
                    >
         </div>
         <div>
+            <label for="isFeatured">Feature Vehicle:</label>
+            <input type="checkbox" name="isFeatured" id="isFeatured"
+               <% if (locals.isFeatured) { %>
+                checked="checked"
+               <% } %>
+            >
+        </div>
+        <div>
             <label for="classificationId">Classification:</label>
             <%- classifications %>
         </div>

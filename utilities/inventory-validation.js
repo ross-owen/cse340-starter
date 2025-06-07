@@ -82,6 +82,9 @@ validator.vehicleRules = () => {
             .isLength({min: 1})
             .withMessage('Please provide a valid classification')
             .custom(async(id) => {
+                if (!id || id === '') {
+                    return false;
+                }
                 const found = await invModel.getClassificationById(id)
                 return !!found;
             }),
@@ -99,6 +102,7 @@ validator.vehicleDataCheck = async (req, res, next) => {
         price,
         miles,
         color,
+        isFeatured,
         classificationId,
     } = req.body
 
@@ -122,6 +126,7 @@ validator.vehicleDataCheck = async (req, res, next) => {
             price,
             miles,
             color,
+            isFeatured,
             classificationId,
         })
         return
@@ -141,6 +146,7 @@ validator.updateVehicleDataCheck = async (req, res, next) => {
         price,
         miles,
         color,
+        isFeatured,
         classificationId,
     } = req.body
 
@@ -165,6 +171,7 @@ validator.updateVehicleDataCheck = async (req, res, next) => {
             price,
             miles,
             color,
+            isFeatured,
             classificationId,
         })
         return

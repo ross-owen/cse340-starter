@@ -39,6 +39,8 @@ router.post("/update",
 router.get('/delete/:vehicleId', utilities.canAdminister, utilities.handleErrors(controller.buildDeleteVehicle))
 router.post("/delete", utilities.canAdminister, utilities.handleErrors(controller.deleteVehicle))
 
+router.get("/getFeatured", utilities.handleErrors(controller.getFeaturedJson))
+
 router.get("/server-error", controller.buildServerError);
 
 module.exports = router;
