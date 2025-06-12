@@ -43,8 +43,9 @@ header {
 
 #tools {
   justify-self: right;
+  text-wrap: nowrap;
 }
-#tools a {
+.a-button {
   padding: 0.3rem 0.8rem;
   color: var(--primary-color);
   background-color: var(--accent1-color);
@@ -52,7 +53,7 @@ header {
   border: 1px solid var(--primary-color);
   border-radius: 5px;
 }
-#tools a:hover {
+.a-button {
   color: var(--accent1-color);
   background-color: var(--primary-color);
 }
@@ -332,6 +333,26 @@ nav a:hover {
   padding-top: 0.5rem;
 }
 
+/* FEATURED */
+.featured-wrapper {
+  display: flex;
+  row-gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+.featured-vehicle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.25rem;
+}
+
+.feature-available {
+  color: var(--backdrop-color);
+  text-align: center;
+}
+
 /* LARGER SCREENS */
 @media (min-width: 565px) {
   body {
@@ -401,5 +422,10 @@ nav a:hover {
     text-decoration: none;
     text-align: center;
     width: 40%;
+  }
+
+  .featured-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 }

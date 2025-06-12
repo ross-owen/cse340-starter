@@ -41,7 +41,7 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 /* ***************************
- *  Get all inventory item by id
+ *  Get inventory item by id
  * ************************** */
 async function getInventoryById(id) {
     try {
@@ -91,6 +91,7 @@ async function addVehicle(year,
                           price,
                           miles,
                           color,
+                          isFeatured,
                           classificationId
 ) {
     try {
@@ -104,8 +105,10 @@ async function addVehicle(year,
                                    inv_price,
                                    inv_miles,
                                    inv_color,
-                                   classification_id)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+                                   is_featured,
+                                   classification_id
+                                   )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             RETURNING *`
         return await pool.query(sql, [
             make,
@@ -117,6 +120,7 @@ async function addVehicle(year,
             price,
             miles,
             color,
+            isFeatured,
             parseInt(classificationId),
         ])
     } catch (error) {
@@ -134,6 +138,7 @@ async function updateVehicle(id,
                              price,
                              miles,
                              color,
+                             isFeatured,
                              classificationId
 ) {
     try {
@@ -148,8 +153,9 @@ async function updateVehicle(id,
                 inv_price         = $7,
                 inv_miles         = $8,
                 inv_color         = $9,
-                classification_id = $10
-            WHERE inv_id = $11
+                is_featured       = $10,
+                classification_id = $11            
+            WHERE inv_id = $12
             RETURNING *`
         const data = await pool.query(sql, [
             make,
@@ -161,6 +167,7 @@ async function updateVehicle(id,
             price,
             miles,
             color,
+            isFeatured,
             parseInt(classificationId),
             parseInt(id)
         ])
@@ -183,6 +190,22 @@ async function deleteVehicle(id) {
     }
 }
 
+async function getFeatured() {
+    try {
+        const data = await pool.query(
+            `SELECT *
+             FROM public.inventory AS i
+                      JOIN public.classification AS c
+                           ON i.classification_id = c.classification_id
+             WHERE i.is_featured = true`
+        )
+        return data.rows
+    } catch (error) {
+        console.error("getinventorybyclassificationid error " + error)
+    }
+}
+
+
 
 module.exports = {
     getClassifications,
@@ -194,4 +217,5 @@ module.exports = {
     addVehicle,
     updateVehicle,
     deleteVehicle,
+    getFeatured,
 }

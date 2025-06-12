@@ -96,6 +96,7 @@ controller.addVehicle = async function (req, res) {
         price,
         miles,
         color,
+        isFeatured,
         classificationId,
     } = req.body
 
@@ -109,6 +110,7 @@ controller.addVehicle = async function (req, res) {
         price,
         miles,
         color,
+        isFeatured,
         classificationId,
     )
 
@@ -120,6 +122,7 @@ controller.addVehicle = async function (req, res) {
         res.status(201).render('inventory/management', {
             title: 'Vehicle Management',
             nav,
+            classificationSelect: classifications,
             errors: null,
         })
     } else {
@@ -176,6 +179,7 @@ controller.buildEditVehicle = async (req, res) => {
         price: vehicle.inv_price,
         miles: vehicle.inv_miles,
         color: vehicle.inv_color,
+        isFeatured: vehicle.is_featured,
         classificationId: vehicle.classification_id
     })
 }
@@ -192,6 +196,7 @@ controller.updateVehicle = async (req, res) => {
         price,
         miles,
         color,
+        isFeatured,
         classificationId,
     } = req.body
 
@@ -206,6 +211,7 @@ controller.updateVehicle = async (req, res) => {
         price,
         miles,
         color,
+        isFeatured,
         classificationId,
     )
 
@@ -287,6 +293,15 @@ controller.deleteVehicle = async (req, res) => {
             model,
             price,
         })
+    }
+}
+
+controller.getFeaturedJson = async (req, res, next) => {
+    const invData = await invModel.getFeatured()
+    if (invData.length === 0 || invData[0].inv_id) {
+        return res.json(invData)
+    } else {
+        next(newError('No data returned'))
     }
 }
 
